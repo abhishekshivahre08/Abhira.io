@@ -11,7 +11,7 @@ export const googleAuth = async(req, res) => {
                 message: "Email is required"
             })
         }
-        const user = await User.findOne({ email });
+        let user = await User.findOne({ email });
         if (!user) {
             user = await User.create({ name, email, avatar })
         }
@@ -28,6 +28,7 @@ export const googleAuth = async(req, res) => {
         })
 
     } catch (error) {
+        console.error("Google Authentication Error:", error);
         return res.status(500).json({ message: `googleAuth error ${error} ` });
     }
 
