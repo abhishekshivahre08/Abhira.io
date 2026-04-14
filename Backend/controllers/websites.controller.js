@@ -157,6 +157,7 @@ ABSOLUTE RULES
 export const genrateWebsite = async(req, res) => {
     try {
         const { prompt } = req.body
+        console.log(prompt);
         if (!prompt) {
             return res.status(400).json({
                 message: "prompt is required"
@@ -179,6 +180,7 @@ export const genrateWebsite = async(req, res) => {
             parsed = await extractJson(raw)
             if (!parsed) {
                 raw = await genrateResponse(finalPrompt + "\n\nReturn only raw JSON...");
+                parsed = await extractJson(raw);
             }
         }
 
@@ -212,5 +214,115 @@ export const genrateWebsite = async(req, res) => {
 
     } catch (error) {
         return res.status(500).json({ message: `genrate website error ${error}` })
+    }
+}
+
+export const getWebsiteById = async(req, res) => {
+    try {
+
+        const website = await Website.findById({
+            _id: req.params.id,
+            user: req.user._id
+        })
+        if (!website) {
+            return res.status(404).json({ message: "website not found" })
+        }
+        return res.status(200).json(website)
+    } catch (error) {
+        return res.status(500).json({ message: `get website by id error ${error}` })
+    }
+};
+
+export const changes = async(req, res) => {
+    try {
+        const { prompt } = req.body
+        console.log(prompt);
+        if (!prompt) {
+            return res.status(400).json({
+                message: "prompt is required"
+            })
+        }
+
+        const website = await Website.findById({
+            _id: req.params.id,
+            user: req.user._id
+        })
+        if (!website) {
+            return res.status(404).json({ message: "website not found" })
+        }
+        const user = await User.findById(req.user._id)
+        if (!user) {
+            return res.status(400).json({ message: "user not found" })
+        }
+
+        if (user.credits < 25) {
+            return res.status(400).json({ message: "you have not enough credits to genrate a website " })
+        }
+
+        const updatePrompt = `
+        UPDATE THIS HTML WEBSITE.
+        
+        CURRENT CODE:
+        ${website.latestCode}
+        
+        USER REQUEST:
+        ${prompt}
+        
+        RETURN RAW JSON ONLY:
+        {
+        "message":"short confirmatio",
+        "code":"<UPDATED FULL HTML>"
+    }
+        `
+
+        let raw = ""
+        let parsed = null
+        for (let i = 0; i < 2 && !parsed; i++) {
+            raw = await genrateResponse(updatePrompt);
+            parsed = await extractJson(raw)
+            if (!parsed) {
+                raw = await genrateResponse(updatePrompt + "\n\nReturn only raw JSON...");
+                parsed = await extractJson(raw);
+            }
+        }
+
+        if (!parsed.code) {
+            console.log("ai  returned invalid response")
+            return res.status(400).json({ message: "ai return invalid response" })
+        }
+
+        website.conversation.push({
+            role: "ai",
+            content: parsed.message
+        }, {
+            role: "user",
+            content: prompt
+        })
+        website.latestCode = parsed.code
+        await website.save();
+
+        user.credits = user.credits - 25
+        await user.save()
+
+        return res.status(200).json({
+            message: parsed.message,
+            code: parsed.code,
+            remaingCredits: user.credits
+        })
+
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: `update website error ${error}` })
+    }
+}
+
+
+export const getAllWebsites = async(req, res) => {
+    try {
+        const websites = await Website.find({ user: req.user._id });
+        return res.status(200).json(websites);
+    } catch (error) {
+        return res.status(500).json({ message: `get all websites error ${error}` })
     }
 }

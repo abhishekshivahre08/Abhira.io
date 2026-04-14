@@ -9,6 +9,7 @@ function Genrate() {
 
     const navigate = useNavigate();
     const [prompt, setPrompt] = useState("");
+    console.log(prompt);
     const handleGenrateWebsite = async ()=>{
         try {
             const  result = await axios.post(`${serverUrl}/api/website/genrate`,{prompt},{withCredentials:true});
