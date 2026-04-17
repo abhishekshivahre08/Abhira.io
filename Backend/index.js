@@ -16,7 +16,8 @@ const port = process.env.PORT || 3000;
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
-    origin: "http://localhost:5173",
+    // origin: "http://localhost:5173",
+    origin: "https://abhira-io.netlify.app/",
     credentials: true,
 }));
 app.use("/api/auth", authRouter);
