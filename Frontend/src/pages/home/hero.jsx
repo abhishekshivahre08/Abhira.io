@@ -90,7 +90,7 @@ function Hero() {
 
                         {!userData ?
                             <button className="px-4 py-2 rounded-lg border border-white/20 hover:bg-white/10 text-sm  shadow-lg shadow-blue-500/20  " onClick={() => setOpenLogin(true)} >
-                                Get Started
+                                Sign In
                             </button>
                             :
                             <div className="relative">
@@ -164,16 +164,16 @@ function Hero() {
                 </motion.p>
                 {/* <button className=' mt-4 px-10 py-4 rounded-xl bg-white text-black font-semibold hover:scale-105 transition  '
                     onClick={() => navigate("/dashboard")} >{userData ? "Go to Dashboard" : "Get Started"} </button> */}
-                    <motion.button
-  initial={{ y: 20, opacity: 0 }}
-  animate={{ y: 0, opacity: 1 }}
-  transition={{ delay: 0.8 }}
-  whileTap={{ scale: 0.95 }} // Mobile touch interaction ke liye best practice
-  className='relative z-50 mt-8 px-10 py-4 rounded-xl bg-white text-black font-semibold shadow-lg'
-  onClick={() => navigate("/dashboard")}
->
-  {userData ? "Go to Dashboard" : "Get Started"}
-</motion.button>
+                <motion.button
+                    initial={{ y: 20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ delay: 0.8 }}
+                    whileTap={{ scale: 0.95 }} // Mobile touch interaction ke liye best practice
+                    className='relative z-50 mt-8 px-10 py-4 rounded-xl bg-white text-black font-semibold shadow-lg'
+                    onClick={() => navigate("/dashboard")}
+                >
+                    {userData ? "Go to Dashboard" : "Get Started"}
+                </motion.button>
             </section>
 
             {/* card Section  */}
