@@ -36,18 +36,34 @@ export const googleAuth = async(req, res) => {
 
 // log out by clearing the cookie
 
+// export const logout = async(req, res) => {
+//     try {
+//         return res.clearCookie("token").status(200).json({
+//             message: "User logged out successfully",
+//             httpOnly: true,
+//             secure: true,
+//             sameSite: "none",
+
+//         })
+
+//     } catch (error) {
+//         return res.status(500).json({ message: `googleAuth error ${error} ` });
+//     }
+
+// }
+
 export const logout = async(req, res) => {
     try {
-        return res.clearCookie("token").status(200).json({
-            message: "User logged out successfully",
+        // Options ko clearCookie ke dusre argument mein bhejna hota hai
+        return res.clearCookie("token", {
             httpOnly: true,
             secure: true,
             sameSite: "none",
-
-        })
+        }).status(200).json({
+            message: "User logged out successfully"
+        });
 
     } catch (error) {
-        return res.status(500).json({ message: `googleAuth error ${error} ` });
+        return res.status(500).json({ message: `Logout error: ${error.message}` });
     }
-
 }
