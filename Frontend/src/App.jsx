@@ -1,7 +1,7 @@
 import React from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Home from './pages/home/homePage';
-export const serverUrl = "http://localhost:8000";
+export const serverUrl = "https://abhira-io.onrender.com";
 import useGetCurrentUser from './hooks/useGetCurrentUser';
 import { useSelector } from 'react-redux';
 import Dashboard from './pages/home/Dashboard';
