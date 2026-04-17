@@ -341,7 +341,8 @@ export const deploy = async(req, res) => {
             website.slug = website.title.toLowerCase().replace(/[^a-z0-9]+/g, "").slice(0, 60) + website._id.toString().slice(-5)
         }
         website.deployed = true;
-        website.deployedUrl = `${process.env.FRONTEND_URL}/site/${website.slug}`
+        const baseUrl = process.env.FRONTEND_URL.replace(/\/$/, "");
+        website.deployedUrl = `${baseUrl}/site/${website.slug}`
         await website.save()
         return res.status(200).json({
             url: website.deployedUrl
