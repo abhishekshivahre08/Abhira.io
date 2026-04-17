@@ -162,8 +162,18 @@ function Hero() {
                     className='mt-8 max-w-2xl mx-auto text-zinc-400 text-lg'>
                     Describe your vision and Let AI genrate a modern, responsive, production-ready website in seconds.
                 </motion.p>
-                <button className=' mt-4 px-10 py-4 rounded-xl bg-white text-black font-semibold hover:scale-105 transition  '
-                    onClick={() => navigate("/dashboard")}    >{userData ? "Go to Dashboard" : "Get Started"} </button>
+                {/* <button className=' mt-4 px-10 py-4 rounded-xl bg-white text-black font-semibold hover:scale-105 transition  '
+                    onClick={() => navigate("/dashboard")} >{userData ? "Go to Dashboard" : "Get Started"} </button> */}
+                    <motion.button
+  initial={{ y: 20, opacity: 0 }}
+  animate={{ y: 0, opacity: 1 }}
+  transition={{ delay: 0.8 }}
+  whileTap={{ scale: 0.95 }} // Mobile touch interaction ke liye best practice
+  className='relative z-50 mt-8 px-10 py-4 rounded-xl bg-white text-black font-semibold shadow-lg'
+  onClick={() => navigate("/dashboard")}
+>
+  {userData ? "Go to Dashboard" : "Get Started"}
+</motion.button>
             </section>
 
             {/* card Section  */}
