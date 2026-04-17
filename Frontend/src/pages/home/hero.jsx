@@ -19,8 +19,8 @@ function Hero() {
     const { userData } = useSelector(state => state.user);
     const [openProfile, setOpenProfile] = useState(false);
     const dispatch = useDispatch();
-    const navigate=useNavigate();
-    const handleLogOut=async()=>{
+    const navigate = useNavigate();
+    const handleLogOut = async () => {
         try {
             await axios.get(`${serverUrl}/api/auth/logout`, { withCredentials: true });
             dispatch(setUserData(null));
@@ -33,6 +33,11 @@ function Hero() {
 
     return (
         <div className='min-h-screen bg-[#040404] text-white overflow-hidden '>
+
+            <div className='absolute -top-40 -left-40 w-[500px] h-[500px] bg-indigo-600/20
+    rounded-full blur-[120px]'/>
+            <div className='absolute bottom-0 right-0 w-[400px] h-[400px] bg-purple-600/20
+    rounded-full blur-[120px]'/>
             {/* navber section */}
             <motion.div
                 initial={{ y: -40, opacity: 0 }}
@@ -47,12 +52,33 @@ function Hero() {
                     </div >
                     {/* right side content */}
                     <div className='flex items-center gap-5'>
-                        <div className="hidden md:inline text-sm text-zinc-400 hover:text-white cursor-pointer">
-                            Pricing
+
+                        <div
+                            className="group hidden md:flex items-center justify-center gap-2 px-4 py-1.5 
+    text-sm font-medium text-zinc-400 cursor-pointer rounded-full 
+    border border-zinc-800 bg-zinc-900/50 transition-all duration-300 
+    hover:border-blue-500 hover:text-white hover:bg-blue-500/10
+    hover:shadow-[0_0_15px_rgba(59,130,246,0.2)] active:scale-95"
+                            onClick={() => navigate("/pricing")}
+                        >
+                            {/* Dot with Fixed Glow */}
+                            <span className="w-1.5 h-1.5 rounded-full bg-zinc-500 
+      group-hover:bg-blue-400 transition-all duration-300
+      group-hover:shadow-[0_0_8px_#60a5fa]">
+                            </span>
+
+                            <span>Pricing</span>
                         </div>
-                        {userData && <div className=" hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full
-bg-white/5 border border-white/10 text-sm cursor-pointer hover:bg-white/10 
-transition">
+                        {userData && <div
+                            className="hidden md:flex items-center gap-2 px-4 py-1.5 rounded-full
+  bg-zinc-900/50 border border-zinc-800 text-sm font-medium text-zinc-400 
+  cursor-pointer transition-all duration-300
+  hover:border-blue-500 hover:text-white hover:bg-blue-500/10 
+  hover:shadow-[0_0_20px_rgba(59,130,246,0.2)] 
+  active:scale-95 group"
+                            onClick={() => navigate("/pricing")}
+                        >
+
                             <Coins size={14} className="text-yellow-400" />
                             <span>Credits</span>
                             <span>{userData.user.credits}</span>
@@ -86,16 +112,21 @@ transition">
                                                     <p className="text-xs text-zinc-500 truncate">{userData.user.email}</p>
                                                 </div>
 
-                                                <button className="md:hidden  w-full flex items-center gap-2  px-4 py-3 text-sm border border-white/10 hover:bg-white/5">
+
+
+                                                <button className="md:hidden  w-full flex items-center gap-2  px-4 py-3 text-sm border border-white/10 hover:bg-white/5" onClick={() => navigate("/pricing")}>
                                                     <Coins size={14} className="text-yellow-400" />
                                                     <span>Credits</span>
                                                     <span>{userData.user.credits}</span>
                                                     <span>+</span>
                                                 </button>
 
-                                                 <button className="  w-full flex items-center gap-2  px-5 py-3 text-sm border border-white/10 hover:bg-white/5" onClick={()=>navigate("/dashboard")} >Dashboard</button>
-                                                   <button className="  w-full flex items-center gap-2  px-5 py-3 text-sm text-red-500 border border-white/10 hover:bg-white/5"
-                                                   onClick={handleLogOut}>LogOut</button>
+                                                <button className="  w-full flex items-center gap-2  px-5 py-3 text-sm border border-white/10 hover:bg-white/5" onClick={() => navigate("/dashboard")} >Dashboard</button>
+                                                <div className="md:hidden  w-full flex items-center gap-2  px-4 py-3 text-sm border border-white/10 hover:bg-white/5" onClick={() => navigate("/pricing")}>
+                                                    Pricing
+                                                </div>
+                                                <button className="  w-full flex items-center gap-2  px-5 py-3 text-sm text-red-500 border border-white/10 hover:bg-white/5"
+                                                    onClick={handleLogOut}>LogOut</button>
 
 
                                             </motion.div>
@@ -132,7 +163,7 @@ transition">
                     Describe your vision and Let AI genrate a modern, responsive, production-ready website in seconds.
                 </motion.p>
                 <button className=' mt-4 px-10 py-4 rounded-xl bg-white text-black font-semibold hover:scale-105 transition  '
-                onClick={()=>navigate("/dashboard")}    >{userData ? "Go to Dashboard" :"Get Started" } </button>
+                    onClick={() => navigate("/dashboard")}    >{userData ? "Go to Dashboard" : "Get Started"} </button>
             </section>
 
             {/* card Section  */}
