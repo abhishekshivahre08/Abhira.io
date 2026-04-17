@@ -22,7 +22,7 @@ app.use(cors({
 }));
 app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
-app.use("/api/Website", websiteRouter);
+app.use("/api/website", websiteRouter);
 
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
